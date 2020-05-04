@@ -29,26 +29,23 @@ namespace Riot_API_test
     {
         public MainPage()
         {
+
             this.InitializeComponent();
 
-           
 
         }
 
         private void player_name_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if(e.Key == VirtualKey.Enter)
+            if(e.Key == VirtualKey.Enter && API_key.Text.Count() > 0)
             {
-               RiotApi api = RiotApi.GetInstance("RGAPI-358d028d-bd7b-4a46-8324-f687c461f5d0", 5, 20);
+                RiotApi api = RiotApi.GetInstance(API_key.Text, 3, 12); 
 
                 try
                 {
                     var summoner = api.Summoner.GetSummonerByNameAsync(Region.Eune, player_name.Text).Result;
-                 //   var champions = api.Champion.GetChampionRotationAsync(summoner.Region);
+
                     var match = api.Match.GetMatchListAsync(summoner.Region, summoner.AccountId).Result;
-                  //  var name = summoner.Name;
-                    //var level = summoner.Level;
-                    //var accountId = summoner.AccountId;
 
                     specs.Text = $" Name: {summoner.Name}  \n Level: {summoner.Level} \n Region:  {summoner.Region} \n " +
                         $"Total Games: {match.TotalGames}";
